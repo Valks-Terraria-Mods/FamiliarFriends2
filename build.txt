@@ -1,0 +1,5 @@
+displayName = Familiar Friends 2
+author = Valkyrienyanko
+version = 0.1
+homepage = https://discord.gg/j8HQZZ76r8
+buildIgnore = Source/*
