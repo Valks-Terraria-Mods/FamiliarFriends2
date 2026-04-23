@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.UI;
 
 namespace FamiliarFriends;
@@ -8,7 +9,7 @@ namespace FamiliarFriends;
 public class UserInterfaceService(KeybindService keybindService)
 {
     private const string VanillaMouseLayerId = "Vanilla: Mouse Text";
-    private readonly List<ToggleableUI> _uis = [];
+    private readonly List<ToggleableUi> _uis = [];
 
     /// <summary>
     /// Registers a UI panel that can be toggled on and off by a keybind.
@@ -18,15 +19,18 @@ public class UserInterfaceService(KeybindService keybindService)
     /// <param name="stateFactory">A factory that creates the <see cref="UIState"/> to display when the panel is shown.</param>
     public void Insert(string name, string keybind, Func<UIState> stateFactory)
     {
-        ToggleableUI ui = new(name, stateFactory);
+        ToggleableUi ui = new(name, stateFactory);
         keybindService.Register(name, keybind, ui.Toggle);
         _uis.Add(ui);
     }
 
     public void UpdateUI(GameTime gameTime)
     {
-        foreach (ToggleableUI ui in _uis)
-            ui.Update(gameTime);
+        foreach (ToggleableUi ui in _uis)
+        {
+            if (ui.IsVisible)
+                ui.Update(gameTime);
+        }
     }
 
     public void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
@@ -36,7 +40,7 @@ public class UserInterfaceService(KeybindService keybindService)
         if (vanillaMouseLayer == -1)
             return;
 
-        foreach (ToggleableUI ui in _uis)
+        foreach (ToggleableUi ui in _uis)
         {
             if (ui.IsVisible)
             {

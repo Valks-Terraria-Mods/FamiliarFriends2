@@ -1,13 +1,17 @@
 using System;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
 
 namespace FamiliarFriends;
 
-public class CharacterCreatorPanel : UIState, IClosable
+public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
 {
+    public UIElement MainElement { get; private set; }
+
     public event Action CloseRequested;
 
     public override void OnInitialize()
@@ -24,5 +28,7 @@ public class CharacterCreatorPanel : UIState, IClosable
         UIButton<string> closeButton = UiControlFactory.CloseBtn();
         closeButton.OnLeftClick += (_, _) => CloseRequested?.Invoke();
         panel.Append(closeButton);
+
+        MainElement = panel;
     }
 }

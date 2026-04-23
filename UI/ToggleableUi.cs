@@ -6,7 +6,7 @@ using Terraria.UI;
 
 namespace FamiliarFriends;
 
-public class ToggleableUI(string id, Func<UIState> stateFactory)
+public class ToggleableUi(string id, Func<UIState> stateFactory)
 {
     /// <summary>
     /// Returns true if this ui is visible in-game.
@@ -16,6 +16,7 @@ public class ToggleableUI(string id, Func<UIState> stateFactory)
     private GameTime _lastUpdateGameTime;
     private readonly UserInterface _userInterface = new();
     private readonly string _name = $"{nameof(FamiliarFriends)}: {id}";
+    private UIState _state;
 
     /// <summary>
     /// Toggles the visibility of this ui.
@@ -35,12 +36,12 @@ public class ToggleableUI(string id, Func<UIState> stateFactory)
     {
         IsVisible = true;
 
-        UIState state = stateFactory();
+        _state = stateFactory();
 
-        if (state is IClosable closable)
+        if (_state is IClosable closable)
             closable.CloseRequested += OnCloseRequested;
 
-        _userInterface.SetState(state);
+        _userInterface.SetState(_state);
     }
 
     /// <summary>
@@ -50,7 +51,7 @@ public class ToggleableUI(string id, Func<UIState> stateFactory)
     {
         IsVisible = false;
 
-        if (_userInterface.CurrentState is IClosable closable)
+        if (_state is IClosable closable)
             closable.CloseRequested -= OnCloseRequested;
 
         _userInterface.SetState(null);
@@ -63,9 +64,6 @@ public class ToggleableUI(string id, Func<UIState> stateFactory)
 
     public void Update(GameTime gameTime)
     {
-        if (!IsVisible)
-            return;
-
         _lastUpdateGameTime = gameTime;
         _userInterface.Update(gameTime);
     }
@@ -73,6 +71,11 @@ public class ToggleableUI(string id, Func<UIState> stateFactory)
     private bool Draw()
     {
         _userInterface.Draw(Main.spriteBatch, _lastUpdateGameTime);
+        
+        // Consume mouse input if mouse is in the ui element (seems to only block sword swinging but not hovering over the hotbar)
+        if (_state is IHasMainElement withElement && withElement.MainElement.ContainsPoint(Main.MouseScreen))
+            Main.LocalPlayer.mouseInterface = true;
+        
         return true;
     }
 
