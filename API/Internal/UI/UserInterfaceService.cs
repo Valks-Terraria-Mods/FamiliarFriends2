@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.UI;
 
-namespace FamiliarFriends;
+namespace ValksTerrariaLib;
 
 internal class UserInterfaceService(KeybindService keybindService)
 {

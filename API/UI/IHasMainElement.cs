@@ -1,6 +1,6 @@
 using Terraria.UI;
 
-namespace FamiliarFriends;
+namespace ValksTerrariaLib;
 
 public interface IHasMainElement
 {

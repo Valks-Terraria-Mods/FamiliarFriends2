@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.UI;
 
-namespace FamiliarFriends;
+namespace ValksTerrariaLib;
 
 internal class ToggleableUi(string id, Func<UIState> stateFactory)
 {
@@ -15,7 +15,7 @@ internal class ToggleableUi(string id, Func<UIState> stateFactory)
 
     private GameTime _lastUpdateGameTime;
     private readonly UserInterface _userInterface = new();
-    private readonly string _name = $"{nameof(FamiliarFriends)}: {id}";
+    private readonly string _name = $"{nameof(ValksTerrariaLib)}: {id}";
     private UIState _state;
 
     /// <summary>

@@ -1,6 +1,6 @@
 using System;
 
-namespace FamiliarFriends;
+namespace ValksTerrariaLib;
 
 public interface IClosable
 {

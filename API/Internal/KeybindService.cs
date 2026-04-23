@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Terraria.ModLoader;
 
-namespace FamiliarFriends;
+namespace ValksTerrariaLib;
 
 internal class KeybindService
 {
