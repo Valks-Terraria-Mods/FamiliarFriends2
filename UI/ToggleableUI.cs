@@ -6,17 +6,59 @@ using Terraria.UI;
 
 namespace FamiliarFriends;
 
-public class ToggleableUI(string name, Func<UIState> stateFactory)
+public class ToggleableUI(string id, Func<UIState> stateFactory)
 {
+    /// <summary>
+    /// Returns true if this ui is visible in-game.
+    /// </summary>
     public bool IsVisible { get; private set; }
 
     private GameTime _lastUpdateGameTime;
     private readonly UserInterface _userInterface = new();
-    private readonly string _id = $"{nameof(FamiliarFriends)}: {name}";
+    private readonly string _name = $"{nameof(FamiliarFriends)}: {id}";
 
-    public void Insert(List<GameInterfaceLayer> layers, int mouseTextIndex)
+    /// <summary>
+    /// Toggles the visibility of this ui.
+    /// </summary>
+    public void Toggle()
     {
-        layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(_id, Draw, InterfaceScaleType.UI));
+        if (IsVisible)
+            Hide();
+        else
+            Show();
+    }
+
+    /// <summary>
+    /// Makes this ui visible.
+    /// </summary>
+    public void Show()
+    {
+        IsVisible = true;
+
+        UIState state = stateFactory();
+
+        if (state is IClosable closable)
+            closable.CloseRequested += OnCloseRequested;
+
+        _userInterface.SetState(state);
+    }
+
+    /// <summary>
+    /// Makes this ui hidden.
+    /// </summary>
+    public void Hide()
+    {
+        IsVisible = false;
+
+        if (_userInterface.CurrentState is IClosable closable)
+            closable.CloseRequested -= OnCloseRequested;
+
+        _userInterface.SetState(null);
+    }
+
+    public void Insert(List<GameInterfaceLayer> layers, int index)
+    {
+        layers.Insert(index, new LegacyGameInterfaceLayer(_name, Draw, InterfaceScaleType.UI));
     }
 
     public void Update(GameTime gameTime)
@@ -34,23 +76,5 @@ public class ToggleableUI(string name, Func<UIState> stateFactory)
         return true;
     }
 
-    public void Toggle()
-    {
-        if (IsVisible)
-            Hide();
-        else
-            Show();
-    }
-
-    public void Show()
-    {
-        IsVisible = true;
-        _userInterface.SetState(stateFactory.Invoke());
-    }
-
-    public void Hide()
-    {
-        IsVisible = false;
-        _userInterface.SetState(null);
-    }
+    private void OnCloseRequested() => Hide();
 }

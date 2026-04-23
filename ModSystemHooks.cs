@@ -8,14 +8,15 @@ namespace FamiliarFriends;
 public class ModSystemHooks : ModSystem
 {
     private readonly KeybindService _keybindService = new();
+    private UserInterfaceRegistry _uiRegistry;
     private UserInterfaceService _uiService;
 
     public override void Load()
     {
-        _uiService = new UserInterfaceService(_keybindService);
         _keybindService.Load(Mod);
-
-        UserInterfaceRegistry.RegisterAll(_uiService);
+        _uiService = new UserInterfaceService(_keybindService);
+        _uiRegistry = new UserInterfaceRegistry(_uiService);
+        _uiRegistry.RegisterAll();
     }
 
     public override void UpdateUI(GameTime gameTime)

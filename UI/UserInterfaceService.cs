@@ -10,11 +10,17 @@ public class UserInterfaceService(KeybindService keybindService)
     private const string VanillaMouseLayerId = "Vanilla: Mouse Text";
     private readonly List<ToggleableUI> _uis = [];
 
-    public void Add(string keybindName, string keybind, UIState uiState)
+    /// <summary>
+    /// Registers a UI panel that can be toggled on and off by a keybind.
+    /// </summary>
+    /// <param name="name">The display name used for the keybind in the in-game settings and internally for the panel.</param>
+    /// <param name="keybind">The default key binding (e.g. <c>"H"</c>) that toggles the panel.</param>
+    /// <param name="stateFactory">A factory that creates the <see cref="UIState"/> to display when the panel is shown.</param>
+    public void Insert(string name, string keybind, Func<UIState> stateFactory)
     {
-        ToggleableUI ui = new(keybindName, () => uiState);
+        ToggleableUI ui = new(name, stateFactory);
+        keybindService.Register(name, keybind, ui.Toggle);
         _uis.Add(ui);
-        keybindService.Register(keybindName, keybind, ui.Toggle);
     }
 
     public void UpdateUI(GameTime gameTime)

@@ -1,10 +1,12 @@
 namespace FamiliarFriends;
 
-public static class UserInterfaceRegistry
+public class UserInterfaceRegistry(UserInterfaceService uiService)
 {
-    public static void RegisterAll(UserInterfaceService uiService)
+    /// <summary>
+    /// Registers all the ui elements in this mod.
+    /// </summary>
+    public void RegisterAll()
     {
-        uiService.Add("Test", "H", new TestPanel());
-        uiService.Add("Test2", "J", new TestPanel2());
+        uiService.Insert("Test", "H", () => new CharacterCreatorPanel());
     }
 }
