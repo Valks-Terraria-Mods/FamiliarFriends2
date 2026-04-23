@@ -5,7 +5,7 @@ using Terraria.UI;
 
 namespace FamiliarFriends;
 
-public class ModSystemHooks : ModSystem
+internal class ModSystemHooks : ModSystem
 {
     private readonly KeybindService _keybindService = new();
     private UserInterfaceRegistry _uiRegistry;

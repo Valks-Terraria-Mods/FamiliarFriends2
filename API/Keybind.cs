@@ -10,17 +10,17 @@ namespace FamiliarFriends;
 /// <param name="name">The name of this keybind.</param>
 /// <param name="binding">The key to use for this keybind.</param>
 /// <param name="action">The action this keybind invokes.</param>
-public class Keybind(Mod mod, string name, string binding, Action action)
+internal class Keybind(Mod mod, string name, string binding, Action action)
 {
     private readonly ModKeybind _keybind = KeybindLoader.RegisterKeybind(mod, name, binding.ToUpper());
 
     /// <summary>
     /// Returns true if this keybind was pressed.
     /// </summary>
-    public bool JustPressed => _keybind.JustPressed;
+    internal bool JustPressed => _keybind.JustPressed;
 
     /// <summary>
     /// Invoke the action tied to this keybind.
     /// </summary>
-    public void Execute() => action();
+    internal void Execute() => action();
 }

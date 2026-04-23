@@ -6,7 +6,7 @@ using Terraria.UI;
 
 namespace FamiliarFriends;
 
-public class UserInterfaceService(KeybindService keybindService)
+internal class UserInterfaceService(KeybindService keybindService)
 {
     private const string VanillaMouseLayerId = "Vanilla: Mouse Text";
     private readonly List<ToggleableUi> _uis = [];
@@ -17,14 +17,14 @@ public class UserInterfaceService(KeybindService keybindService)
     /// <param name="name">The display name used for the keybind in the in-game settings and internally for the panel.</param>
     /// <param name="keybind">The default key binding (e.g. <c>"H"</c>) that toggles the panel.</param>
     /// <param name="stateFactory">A factory that creates the <see cref="UIState"/> to display when the panel is shown.</param>
-    public void Insert(string name, string keybind, Func<UIState> stateFactory)
+    internal void Insert(string name, string keybind, Func<UIState> stateFactory)
     {
         ToggleableUi ui = new(name, stateFactory);
         keybindService.Register(name, keybind, ui.Toggle);
         _uis.Add(ui);
     }
 
-    public void UpdateUI(GameTime gameTime)
+    internal void UpdateUI(GameTime gameTime)
     {
         foreach (ToggleableUi ui in _uis)
         {
@@ -33,7 +33,7 @@ public class UserInterfaceService(KeybindService keybindService)
         }
     }
 
-    public void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+    internal void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
     {
         int vanillaMouseLayer = layers.FindIndex(layer => layer.Name.Equals(VanillaMouseLayerId, StringComparison.Ordinal));
 

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace FamiliarFriends;
 
-public class KeybindService
+internal class KeybindService
 {
     private readonly List<Keybind> _keybinds = [];
     private Mod _mod;
@@ -15,17 +15,17 @@ public class KeybindService
     /// <param name="name">The name of this keybind.</param>
     /// <param name="defaultKey">The key to use for this keybind.</param>
     /// <param name="action">The action this keybind invokes.</param>
-    public void Register(string name, string defaultKey, Action action)
+    internal void Register(string name, string defaultKey, Action action)
     {
         _keybinds.Add(new Keybind(_mod, name, defaultKey, action));
     }
 
-    public void Load(Mod mod)
+    internal void Load(Mod mod)
     {
         _mod = mod;
     }
 
-    public void UpdateUI()
+    internal void UpdateUI()
     {
         foreach (Keybind keybind in _keybinds)
         {

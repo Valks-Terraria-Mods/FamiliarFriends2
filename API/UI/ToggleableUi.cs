@@ -6,12 +6,12 @@ using Terraria.UI;
 
 namespace FamiliarFriends;
 
-public class ToggleableUi(string id, Func<UIState> stateFactory)
+internal class ToggleableUi(string id, Func<UIState> stateFactory)
 {
     /// <summary>
     /// Returns true if this ui is visible in-game.
     /// </summary>
-    public bool IsVisible { get; private set; }
+    internal bool IsVisible { get; private set; }
 
     private GameTime _lastUpdateGameTime;
     private readonly UserInterface _userInterface = new();
@@ -21,7 +21,7 @@ public class ToggleableUi(string id, Func<UIState> stateFactory)
     /// <summary>
     /// Toggles the visibility of this ui.
     /// </summary>
-    public void Toggle()
+    internal void Toggle()
     {
         if (IsVisible)
             Hide();
@@ -32,7 +32,7 @@ public class ToggleableUi(string id, Func<UIState> stateFactory)
     /// <summary>
     /// Makes this ui visible.
     /// </summary>
-    public void Show()
+    internal void Show()
     {
         IsVisible = true;
 
@@ -47,7 +47,7 @@ public class ToggleableUi(string id, Func<UIState> stateFactory)
     /// <summary>
     /// Makes this ui hidden.
     /// </summary>
-    public void Hide()
+    internal void Hide()
     {
         IsVisible = false;
 
@@ -57,12 +57,12 @@ public class ToggleableUi(string id, Func<UIState> stateFactory)
         _userInterface.SetState(null);
     }
 
-    public void Insert(List<GameInterfaceLayer> layers, int index)
+    internal void Insert(List<GameInterfaceLayer> layers, int index)
     {
         layers.Insert(index, new LegacyGameInterfaceLayer(_name, Draw, InterfaceScaleType.UI));
     }
 
-    public void Update(GameTime gameTime)
+    internal void Update(GameTime gameTime)
     {
         _lastUpdateGameTime = gameTime;
         _userInterface.Update(gameTime);
