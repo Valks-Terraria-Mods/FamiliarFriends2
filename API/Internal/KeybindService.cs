@@ -2,27 +2,15 @@ using System;
 using System.Collections.Generic;
 using Terraria.ModLoader;
 
-namespace ValksTerrariaLib;
+namespace ValkyrieLib;
 
 internal class KeybindService
 {
     private readonly List<Keybind> _keybinds = [];
-    private Mod _mod;
-
-    /// <summary>
-    /// Registers a new keybind that invokes an action.
-    /// </summary>
-    /// <param name="name">The name of this keybind.</param>
-    /// <param name="defaultKey">The key to use for this keybind.</param>
-    /// <param name="action">The action this keybind invokes.</param>
-    internal void Register(string name, string defaultKey, Action action)
+    
+    internal void Register(Mod mod, string name, string defaultKey, Action action)
     {
-        _keybinds.Add(new Keybind(_mod, name, defaultKey, action));
-    }
-
-    internal void Load(Mod mod)
-    {
-        _mod = mod;
+        _keybinds.Add(new Keybind(mod, name, defaultKey, action));
     }
 
     internal void UpdateUI()

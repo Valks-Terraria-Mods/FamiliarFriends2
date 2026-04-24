@@ -1,7 +1,7 @@
 using System;
 using Terraria.ModLoader;
 
-namespace ValksTerrariaLib;
+namespace ValkyrieLib;
 
 /// <summary>
 /// Registers a new keybind that invokes an action when pressed.

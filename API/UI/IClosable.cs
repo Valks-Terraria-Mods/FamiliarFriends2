@@ -1,6 +1,6 @@
 using System;
 
-namespace ValksTerrariaLib;
+namespace ValkyrieLib;
 
 public interface IClosable
 {

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.UI;
 
-namespace ValksTerrariaLib;
+namespace ValkyrieLib;
 
 internal class ToggleableUi(string id, Func<UIState> stateFactory)
 {
@@ -15,7 +15,7 @@ internal class ToggleableUi(string id, Func<UIState> stateFactory)
 
     private GameTime _lastUpdateGameTime;
     private readonly UserInterface _userInterface = new();
-    private readonly string _name = $"{nameof(ValksTerrariaLib)}: {id}";
+    private readonly string _name = $"{nameof(ValkyrieLibMod)}: {id}";
     private UIState _state;
 
     /// <summary>

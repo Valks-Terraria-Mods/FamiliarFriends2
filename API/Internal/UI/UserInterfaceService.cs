@@ -2,25 +2,20 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace ValksTerrariaLib;
+namespace ValkyrieLib;
 
 internal class UserInterfaceService(KeybindService keybindService)
 {
     private const string VanillaMouseLayerId = "Vanilla: Mouse Text";
     private readonly List<ToggleableUi> _uis = [];
 
-    /// <summary>
-    /// Registers a UI panel that can be toggled on and off by a keybind.
-    /// </summary>
-    /// <param name="name">The display name used for the keybind in the in-game settings and internally for the panel.</param>
-    /// <param name="keybind">The default key binding (e.g. <c>"H"</c>) that toggles the panel.</param>
-    /// <param name="stateFactory">A factory that creates the <see cref="UIState"/> to display when the panel is shown.</param>
-    internal void Insert(string name, string keybind, Func<UIState> stateFactory)
+    internal void Insert(Mod mod, string name, string keybind, Func<UIState> stateFactory)
     {
         ToggleableUi ui = new(name, stateFactory);
-        keybindService.Register(name, keybind, ui.Toggle);
+        keybindService.Register(mod, name, keybind, ui.Toggle);
         _uis.Add(ui);
     }
 

@@ -5,7 +5,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
-using ValksTerrariaLib;
+using ValkyrieLib;
 
 namespace FamiliarFriends;
 

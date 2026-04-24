@@ -1,6 +1,6 @@
 using Terraria.UI;
 
-namespace ValksTerrariaLib;
+namespace ValkyrieLib;
 
 public interface IHasMainElement
 {
