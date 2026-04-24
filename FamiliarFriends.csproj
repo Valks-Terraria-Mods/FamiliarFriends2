@@ -12,8 +12,13 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         <PrivateAssets>all</PrivateAssets>
       </PackageReference>
-
-      <Compile Remove="Source\**\*.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ValkyrieLib\ValkyrieLib.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Source\**\*.cs" />
+    </ItemGroup>
 </Project>

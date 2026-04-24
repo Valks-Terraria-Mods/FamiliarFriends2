@@ -1,5 +1,6 @@
-displayName = Familiar Friends 2
+displayName = Familiar Friends
 author = Valkyrienyanko
 version = 0.1
 homepage = https://discord.gg/j8HQZZ76r8
+modReferences = ValkyrieLib
 buildIgnore = Source/*
