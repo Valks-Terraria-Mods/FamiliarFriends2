@@ -16,7 +16,8 @@ public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
 
     public event Action CloseRequested;
 
-    private static Color DefaultUIBlue = new(73, 94, 171, 230);
+    private static Color BackgroundColor = new(29, 37, 69, 224);
+    private static Color BorderColor = new(77, 96, 151);
 
     public override void OnInitialize()
     {
@@ -24,7 +25,8 @@ public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
         var panel = new UIPanel();
         panel.Width.Set(600, 0);
         panel.Height.Set(350, 0);
-        panel.BackgroundColor = DefaultUIBlue;
+        panel.BackgroundColor = BackgroundColor;
+        panel.BorderColor = BorderColor;
         panel.HAlign = 0.5f;
         panel.VAlign = 0.5f;
         Append(panel);
