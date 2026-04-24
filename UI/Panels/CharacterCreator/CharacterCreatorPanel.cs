@@ -18,12 +18,6 @@ public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
 
     private static Color DefaultUIBlue = new(73, 94, 171, 230);
 
-    private void AddTab(UIGrid grid, Asset<Texture2D> texture)
-    {
-        var button = new UIColoredImageButton(texture);
-        grid.Add(button);
-    }
-
     public override void OnInitialize()
     {
         base.OnInitialize();
@@ -42,16 +36,16 @@ public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
             Height = StyleDimension.FromPixels(200)
         };
 
-        AddTab(grid, CharacterCreationAssets.Tabs.Appearance);
-        AddTab(grid, CharacterCreationAssets.Tabs.GetGenderIcon(Gender.Female));
-        AddTab(grid, CharacterCreationAssets.Tabs.HairStyles);
-        AddTab(grid, CharacterCreationAssets.Tabs.HairColor);
-        AddTab(grid, CharacterCreationAssets.Tabs.EyeColor);
-        AddTab(grid, CharacterCreationAssets.Tabs.SkinColor);
-        AddTab(grid, CharacterCreationAssets.Tabs.ShirtColor);
-        AddTab(grid, CharacterCreationAssets.Tabs.UnderShirtColor);
-        AddTab(grid, CharacterCreationAssets.Tabs.PantsColor);
-        AddTab(grid, CharacterCreationAssets.Tabs.ShoesColor);
+        grid.Add(CharacterCreationAssets.Tabs.Appearance);
+        grid.Add(CharacterCreationAssets.Tabs.GetGenderIcon(Gender.Female));
+        grid.Add(CharacterCreationAssets.Tabs.HairStyles);
+        grid.Add(CharacterCreationAssets.Tabs.HairColor);
+        grid.Add(CharacterCreationAssets.Tabs.EyeColor);
+        grid.Add(CharacterCreationAssets.Tabs.SkinColor);
+        grid.Add(CharacterCreationAssets.Tabs.ShirtColor);
+        grid.Add(CharacterCreationAssets.Tabs.UnderShirtColor);
+        grid.Add(CharacterCreationAssets.Tabs.PantsColor);
+        grid.Add(CharacterCreationAssets.Tabs.ShoesColor);
 
         // NAME
         var inputField = new InputField("", "");

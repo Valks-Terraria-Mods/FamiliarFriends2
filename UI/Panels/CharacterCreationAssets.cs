@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
+using Terraria.GameContent.UI.Elements;
 
 namespace FamiliarFriends;
 
@@ -16,29 +17,23 @@ public static class CharacterCreationAssets
 
     public static class Tabs
     {
-        public static Asset<Texture2D> Appearance => GetTexture(CharCreationTexture.CharInfo);
-        public static Asset<Texture2D> HairStyles => GetTexture(CharCreationTexture.HairStyle_Hair);
-        public static Asset<Texture2D> GetGenderIcon(Gender gender) => gender == Gender.Male ? ClothStyle.Male : ClothStyle.Female;
-        public static Asset<Texture2D> HairColor => GetTexture(CharCreationTexture.ColorHair);
-        public static Asset<Texture2D> EyeColor => GetTexture(CharCreationTexture.ColorEye);
-        public static Asset<Texture2D> SkinColor => GetTexture(CharCreationTexture.ColorSkin);
-        public static Asset<Texture2D> ShirtColor => GetTexture(CharCreationTexture.ColorShirt);
-        public static Asset<Texture2D> UnderShirtColor => GetTexture(CharCreationTexture.ColorUndershirt);
-        public static Asset<Texture2D> PantsColor => GetTexture(CharCreationTexture.ColorPants);
-        public static Asset<Texture2D> ShoesColor => GetTexture(CharCreationTexture.ColorShoes);
+        public static UIColoredImageButton Appearance => BuildButton(CharCreationTexture.CharInfo);
+        public static UIColoredImageButton HairStyles => BuildButton(CharCreationTexture.HairStyle_Hair, CharCreationTexture.HairStyle_Arrow);
+        public static UIColoredImageButton GetGenderIcon(Gender gender) => BuildButton(gender == Gender.Male ? CharCreationTexture.ClothStyleMale : CharCreationTexture.ClothStyleFemale);
+        public static UIColoredImageButton HairColor => BuildButton(CharCreationTexture.ColorHair);
+        public static UIColoredImageButton EyeColor => BuildButton(CharCreationTexture.ColorEye, CharCreationTexture.ColorEyeBack);
+        public static UIColoredImageButton SkinColor => BuildButton(CharCreationTexture.ColorSkin);
+        public static UIColoredImageButton ShirtColor => BuildButton(CharCreationTexture.ColorShirt);
+        public static UIColoredImageButton UnderShirtColor => BuildButton(CharCreationTexture.ColorUndershirt);
+        public static UIColoredImageButton PantsColor => BuildButton(CharCreationTexture.ColorPants);
+        public static UIColoredImageButton ShoesColor => BuildButton(CharCreationTexture.ColorShoes);
     }
 
-    public static class Actions
+    public static class ColorActions
     {
         public static Asset<Texture2D> Copy => GetTexture(CharCreationTexture.Copy);
         public static Asset<Texture2D> Paste => GetTexture(CharCreationTexture.Paste);
         public static Asset<Texture2D> Randomize => GetTexture(CharCreationTexture.Randomize);
-    }
-
-    public static class ClothStyle
-    {
-        public static Asset<Texture2D> Male => GetTexture(CharCreationTexture.ClothStyleMale);
-        public static Asset<Texture2D> Female => GetTexture(CharCreationTexture.ClothStyleFemale);
     }
 
     public static Asset<Texture2D> CategoryPanel => GetTexture(CharCreationTexture.CategoryPanel);
@@ -46,8 +41,6 @@ public static class CharacterCreationAssets
     public static Asset<Texture2D> CategoryPanelHighlight => GetTexture(CharCreationTexture.CategoryPanelHighlight);
     public static Asset<Texture2D> SmallPanel => GetTexture(CharCreationTexture.SmallPanel);
     public static Asset<Texture2D> SmallPanelBorder => GetTexture(CharCreationTexture.SmallPanelBorder);
-    public static Asset<Texture2D> HairStyleArrow => GetTexture(CharCreationTexture.HairStyle_Arrow);
-    public static Asset<Texture2D> ColorEyeBack => GetTexture(CharCreationTexture.ColorEyeBack);
 
     public static void EnsureLoaded()
     {
@@ -61,6 +54,16 @@ public static class CharacterCreationAssets
     private static Asset<Texture2D> GetTexture(CharCreationTexture texture)
     {
         return _textureCache[texture];
+    }
+
+    private static UIColoredImageButton BuildButton(CharCreationTexture texture, CharCreationTexture middleTexture = default)
+    {
+        var btn = new UIColoredImageButton(GetTexture(texture));
+
+        if (middleTexture != default)
+            btn.SetMiddleTexture(GetTexture(middleTexture));
+
+        return btn;
     }
 
     private enum CharCreationTexture

@@ -77,9 +77,9 @@ public sealed class HsvSlider : MultiColorSlider
         };
         bottomRow.Append(buttonHost);
 
-        _copyButton = CreateActionButton(CharacterCreationAssets.Actions.Copy, 0f, CopyHexToClipboard);
-        _pasteButton = CreateActionButton(CharacterCreationAssets.Actions.Paste, 40f, PasteHexFromClipboard);
-        _randomizeButton = CreateActionButton(CharacterCreationAssets.Actions.Randomize, 80f, RandomizeChannels);
+        _copyButton = CreateActionButton(CharacterCreationAssets.ColorActions.Copy, 0f, CopyHexToClipboard);
+        _pasteButton = CreateActionButton(CharacterCreationAssets.ColorActions.Paste, 40f, PasteHexFromClipboard);
+        _randomizeButton = CreateActionButton(CharacterCreationAssets.ColorActions.Randomize, 80f, RandomizeChannels);
 
         buttonHost.Append(_copyButton);
         buttonHost.Append(_pasteButton);

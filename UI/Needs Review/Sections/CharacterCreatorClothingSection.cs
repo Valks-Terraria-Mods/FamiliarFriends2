@@ -121,20 +121,16 @@ public sealed class CharacterCreatorClothingSection : UIElement
             HAlign = 0.5f,
         };
 
-        UIColoredImageButton maleButton = new(CharacterCreationAssets.ClothStyle.Male)
-        {
-            Width = StyleDimension.FromPixels(40f),
-            Height = StyleDimension.FromPixels(40f),
-        };
+        UIColoredImageButton maleButton = CharacterCreationAssets.Tabs.GetGenderIcon(Gender.Male);
+        maleButton.Width.Set(40, 0);
+        maleButton.Height.Set(40, 0);
         maleButton.SetVisibility(1f, 0.6f);
         maleButton.OnLeftMouseDown += (_, _) => _onGenderRequested?.Invoke(true);
         row.Append(maleButton);
 
-        UIColoredImageButton femaleButton = new(CharacterCreationAssets.ClothStyle.Female)
-        {
-            Width = StyleDimension.FromPixels(40f),
-            Height = StyleDimension.FromPixels(40f),
-        };
+        UIColoredImageButton femaleButton = CharacterCreationAssets.Tabs.GetGenderIcon(Gender.Female);
+        femaleButton.Width.Set(40, 0);
+        femaleButton.Height.Set(40, 0);
         femaleButton.SetVisibility(1f, 0.6f);
         femaleButton.OnLeftMouseDown += (_, _) => _onGenderRequested?.Invoke(false);
         row.Append(femaleButton);
