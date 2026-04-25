@@ -56,16 +56,23 @@ public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
         Append(panel);
 
         // TABS
-        var grid = new UIGrid()
+        var layout = new VBoxContainer()
         {
             Width = StyleDimension.Fill,
-            Height = StyleDimension.Fill
+            Height = StyleDimension.Fill,
+            Spacing = 5f
+        };
+
+        var tabRow = new HBoxContainer()
+        {
+            Width = StyleDimension.Fill,
+            Spacing = 5f
         };
 
         var mainContent = new UIElement
         {
             Width = StyleDimension.Fill,
-            Height = StyleDimension.FromPixels(275)
+            Height = StyleDimension.Fill
         };
 
         _tabs.Add(CharacterCreatorTab.Appearance, new CharacterTab(mainContent, GameAssets.Tabs.Appearance, BuildAppearanceTab()));
@@ -80,11 +87,12 @@ public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
         _tabs.Add(CharacterCreatorTab.ShoesColor, new CharacterTab(mainContent, GameAssets.Tabs.ShoesColor, BuildColorTab()));
 
         foreach (var tab in _tabs.Values)
-            grid.Add(tab.Button);
+            tabRow.Append(tab.Button);
 
-        grid.Add(mainContent);
+        layout.Append(tabRow);
+        layout.Append(mainContent);
 
-        panel.Append(grid);
+        panel.Append(layout);
 
         _tabs[CharacterCreatorTab.Appearance].Select();
 
