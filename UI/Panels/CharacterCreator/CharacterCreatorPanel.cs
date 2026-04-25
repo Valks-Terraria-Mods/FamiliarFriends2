@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -10,6 +11,12 @@ using ValkyrieLib;
 
 namespace FamiliarFriends;
 
+public class CharacterTab(UIColoredImageButton btn)
+{
+    public UIColoredImageButton Button { get; } = btn;
+    public void SetColor(Color color) => Button.SetColor(color);
+}
+
 public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
 {
     public UIElement MainElement { get; private set; }
@@ -18,6 +25,8 @@ public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
 
     private static Color BackgroundColor = new(29, 37, 69, 224);
     private static Color BorderColor = new(77, 96, 151);
+
+    private readonly Dictionary<CharacterCreatorTab, CharacterTab> _tabs = [];
 
     public override void OnInitialize()
     {
@@ -38,16 +47,19 @@ public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
             Height = StyleDimension.FromPixels(200)
         };
 
-        grid.Add(GameAssets.Tabs.Appearance);
-        grid.Add(GameAssets.Tabs.GetGenderIcon(Gender.Female));
-        grid.Add(GameAssets.Tabs.HairStyles);
-        grid.Add(GameAssets.Tabs.HairColor);
-        grid.Add(GameAssets.Tabs.EyeColor);
-        grid.Add(GameAssets.Tabs.SkinColor);
-        grid.Add(GameAssets.Tabs.ShirtColor);
-        grid.Add(GameAssets.Tabs.UnderShirtColor);
-        grid.Add(GameAssets.Tabs.PantsColor);
-        grid.Add(GameAssets.Tabs.ShoesColor);
+        _tabs.Add(CharacterCreatorTab.Appearance, new CharacterTab(GameAssets.Tabs.Appearance));
+        _tabs.Add(CharacterCreatorTab.Clothing, new CharacterTab(GameAssets.Tabs.GetGenderIcon(Gender.Female)));
+        _tabs.Add(CharacterCreatorTab.HairStyles, new CharacterTab(GameAssets.Tabs.HairStyles));
+        _tabs.Add(CharacterCreatorTab.HairColor, new CharacterTab(GameAssets.Tabs.HairColor));
+        _tabs.Add(CharacterCreatorTab.EyeColor, new CharacterTab(GameAssets.Tabs.EyeColor));
+        _tabs.Add(CharacterCreatorTab.SkinColor, new CharacterTab(GameAssets.Tabs.SkinColor));
+        _tabs.Add(CharacterCreatorTab.ShirtColor, new CharacterTab(GameAssets.Tabs.ShirtColor));
+        _tabs.Add(CharacterCreatorTab.UnderShirtColor, new CharacterTab(GameAssets.Tabs.UnderShirtColor));
+        _tabs.Add(CharacterCreatorTab.PantsColor, new CharacterTab(GameAssets.Tabs.PantsColor));
+        _tabs.Add(CharacterCreatorTab.ShoesColor, new CharacterTab(GameAssets.Tabs.ShoesColor));
+
+        foreach (var tab in _tabs.Values)
+            grid.Add(tab.Button);
 
         // NAME
         var inputField = new InputField("", "");
