@@ -1,20 +1,35 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using Terraria.GameContent.UI.Elements;
-using Terraria.ModLoader.UI;
 using Terraria.ModLoader.UI.Elements;
 using Terraria.UI;
 using ValkyrieLib;
 
 namespace FamiliarFriends;
 
-public class CharacterTab(UIColoredImageButton btn)
+public class CharacterTab
 {
-    public UIColoredImageButton Button { get; } = btn;
+    public UIColoredImageButton Button { get; }
+    public UIElement Content { get; }
+
+    private readonly UIElement _mainContent;
+
+    public CharacterTab(UIElement mainContent, UIColoredImageButton btn, UIElement content)
+    {
+        _mainContent = mainContent;
+        Button = btn;
+        Content = content;
+
+        btn.OnLeftClick += (_, _) => Select();
+    }
+    
     public void SetColor(Color color) => Button.SetColor(color);
+    public void Select()
+    {
+        _mainContent.RemoveAllChildren();
+        _mainContent.Append(Content);
+    }
 }
 
 public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
@@ -44,28 +59,60 @@ public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
         var grid = new UIGrid()
         {
             Width = StyleDimension.Fill,
-            Height = StyleDimension.FromPixels(200)
+            Height = StyleDimension.Fill
         };
 
-        _tabs.Add(CharacterCreatorTab.Appearance, new CharacterTab(GameAssets.Tabs.Appearance));
-        _tabs.Add(CharacterCreatorTab.Clothing, new CharacterTab(GameAssets.Tabs.GetGenderIcon(Gender.Female)));
-        _tabs.Add(CharacterCreatorTab.HairStyles, new CharacterTab(GameAssets.Tabs.HairStyles));
-        _tabs.Add(CharacterCreatorTab.HairColor, new CharacterTab(GameAssets.Tabs.HairColor));
-        _tabs.Add(CharacterCreatorTab.EyeColor, new CharacterTab(GameAssets.Tabs.EyeColor));
-        _tabs.Add(CharacterCreatorTab.SkinColor, new CharacterTab(GameAssets.Tabs.SkinColor));
-        _tabs.Add(CharacterCreatorTab.ShirtColor, new CharacterTab(GameAssets.Tabs.ShirtColor));
-        _tabs.Add(CharacterCreatorTab.UnderShirtColor, new CharacterTab(GameAssets.Tabs.UnderShirtColor));
-        _tabs.Add(CharacterCreatorTab.PantsColor, new CharacterTab(GameAssets.Tabs.PantsColor));
-        _tabs.Add(CharacterCreatorTab.ShoesColor, new CharacterTab(GameAssets.Tabs.ShoesColor));
+        var mainContent = new UIElement
+        {
+            Width = StyleDimension.Fill,
+            Height = StyleDimension.FromPixels(275)
+        };
+
+        _tabs.Add(CharacterCreatorTab.Appearance, new CharacterTab(mainContent, GameAssets.Tabs.Appearance, BuildAppearanceTab()));
+        _tabs.Add(CharacterCreatorTab.Clothing, new CharacterTab(mainContent, GameAssets.Tabs.GetGenderIcon(Gender.Female), BuildColorTab()));
+        _tabs.Add(CharacterCreatorTab.HairStyles, new CharacterTab(mainContent, GameAssets.Tabs.HairStyles, BuildColorTab()));
+        _tabs.Add(CharacterCreatorTab.HairColor, new CharacterTab(mainContent, GameAssets.Tabs.HairColor, BuildColorTab()));
+        _tabs.Add(CharacterCreatorTab.EyeColor, new CharacterTab(mainContent, GameAssets.Tabs.EyeColor, BuildColorTab()));
+        _tabs.Add(CharacterCreatorTab.SkinColor, new CharacterTab(mainContent, GameAssets.Tabs.SkinColor, BuildColorTab()));
+        _tabs.Add(CharacterCreatorTab.ShirtColor, new CharacterTab(mainContent, GameAssets.Tabs.ShirtColor, BuildColorTab()));
+        _tabs.Add(CharacterCreatorTab.UnderShirtColor, new CharacterTab(mainContent, GameAssets.Tabs.UnderShirtColor, BuildColorTab()));
+        _tabs.Add(CharacterCreatorTab.PantsColor, new CharacterTab(mainContent, GameAssets.Tabs.PantsColor, BuildColorTab()));
+        _tabs.Add(CharacterCreatorTab.ShoesColor, new CharacterTab(mainContent, GameAssets.Tabs.ShoesColor, BuildColorTab()));
 
         foreach (var tab in _tabs.Values)
             grid.Add(tab.Button);
 
-        // NAME
-        var inputField = new InputField("", "");
-        grid.Add(inputField);
+        grid.Add(mainContent);
 
         panel.Append(grid);
+
+        _tabs[CharacterCreatorTab.Appearance].Select();
+
+        // CLOSE BUTTON
+        var closeButton = UiControlFactory.CloseBtn();
+        closeButton.OnLeftClick += (_, _) => CloseRequested?.Invoke();
+        panel.Append(closeButton);
+        
+        MainElement = panel;
+    }
+
+    private static UIElement BuildColorTab()
+    {
+        var element = new UIElement();
+        return element;
+    }
+
+    private static UIElement BuildAppearanceTab()
+    {
+        var element = new UIElement
+        {
+            Width = StyleDimension.Fill,
+            Height = StyleDimension.Fill
+        };
+
+        // NAME
+        var inputField = new InputField("", "");
+        element.Append(inputField);
 
         // CLOTHING
         var maleStyles = StaticClothStyleButton.MaleStyles;
@@ -95,14 +142,9 @@ public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
         for (int i = 0; i < femaleStyles.Length; i++)
             femaleGrid.Add(new StaticClothStyleButton(femaleStyles[i]));
 
-        panel.Append(maleGrid);
-        panel.Append(femaleGrid);
+        element.Append(maleGrid);
+        element.Append(femaleGrid);
 
-        // CLOSE BUTTON
-        var closeButton = UiControlFactory.CloseBtn();
-        closeButton.OnLeftClick += (_, _) => CloseRequested?.Invoke();
-        panel.Append(closeButton);
-        
-        MainElement = panel;
+        return element;
     }
 }
