@@ -77,9 +77,9 @@ public sealed class RgbSlider : MultiColorSlider
         };
         bottomRow.Append(buttonHost);
 
-        _copyButton = CreateActionButton(CharacterCreationAssets.ColorActions.Copy, 0f, CopyHexToClipboard);
-        _pasteButton = CreateActionButton(CharacterCreationAssets.ColorActions.Paste, 40f, PasteHexFromClipboard);
-        _randomizeButton = CreateActionButton(CharacterCreationAssets.ColorActions.Randomize, 80f, RandomizeChannels);
+        _copyButton = SetupActionButton(GameAssets.ColorActions.Copy, 0f, CopyHexToClipboard);
+        _pasteButton = SetupActionButton(GameAssets.ColorActions.Paste, 40f, PasteHexFromClipboard);
+        _randomizeButton = SetupActionButton(GameAssets.ColorActions.Randomize, 80f, RandomizeChannels);
 
         buttonHost.Append(_copyButton);
         buttonHost.Append(_pasteButton);
@@ -162,21 +162,6 @@ public sealed class RgbSlider : MultiColorSlider
         };
 
         return slider;
-    }
-
-    private static UIColoredImageButton CreateActionButton(ReLogic.Content.Asset<Texture2D> icon, float leftPixels, Action action)
-    {
-        UIColoredImageButton button = new(icon, isSmall: true)
-        {
-            Left = StyleDimension.FromPixels(leftPixels),
-            VAlign = 0f,
-            HAlign = 0f,
-        };
-
-        button.SetVisibility(1f, 0.55f);
-        button.OnLeftMouseDown += (_, _) => action();
-
-        return button;
     }
 
     private void HandleRedChanged(float value)

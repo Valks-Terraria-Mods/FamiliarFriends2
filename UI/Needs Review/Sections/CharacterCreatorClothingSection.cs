@@ -121,14 +121,14 @@ public sealed class CharacterCreatorClothingSection : UIElement
             HAlign = 0.5f,
         };
 
-        UIColoredImageButton maleButton = CharacterCreationAssets.Tabs.GetGenderIcon(Gender.Male);
+        UIColoredImageButton maleButton = GameAssets.Tabs.GetGenderIcon(Gender.Male);
         maleButton.Width.Set(40, 0);
         maleButton.Height.Set(40, 0);
         maleButton.SetVisibility(1f, 0.6f);
         maleButton.OnLeftMouseDown += (_, _) => _onGenderRequested?.Invoke(true);
         row.Append(maleButton);
 
-        UIColoredImageButton femaleButton = CharacterCreationAssets.Tabs.GetGenderIcon(Gender.Female);
+        UIColoredImageButton femaleButton = GameAssets.Tabs.GetGenderIcon(Gender.Female);
         femaleButton.Width.Set(40, 0);
         femaleButton.Height.Set(40, 0);
         femaleButton.SetVisibility(1f, 0.6f);

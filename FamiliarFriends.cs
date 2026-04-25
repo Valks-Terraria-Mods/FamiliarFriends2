@@ -13,7 +13,7 @@ public class FamiliarFriends : Mod
     {
         _instance = this;
 
-        CharacterCreationAssets.EnsureLoaded();
+        GameAssets.EnsureLoaded();
 
         ModHandle modHandle = ValkyrieAPI.GetHandle(this);
 

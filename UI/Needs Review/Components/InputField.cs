@@ -135,10 +135,10 @@ public class InputField : UIElement
         int width = (int)dimensions.Width;
         int height = (int)dimensions.Height;
 
-        Utils.DrawSplicedPanel(spriteBatch, CharacterCreationAssets.CategoryPanel.Value, x, y, width, height, 10, 10, 10, 10, Color.White * HoverOverlayAlpha);
+        Utils.DrawSplicedPanel(spriteBatch, GameAssets.CategoryPanel.Value, x, y, width, height, 10, 10, 10, 10, Color.White * HoverOverlayAlpha);
 
         if (_hovered || _focused)
-            Utils.DrawSplicedPanel(spriteBatch, CharacterCreationAssets.CategoryPanelBorder.Value, x, y, width, height, 10, 10, 10, 10, Color.White);
+            Utils.DrawSplicedPanel(spriteBatch, GameAssets.CategoryPanelBorder.Value, x, y, width, height, 10, 10, 10, 10, Color.White);
     }
 
     protected virtual void DrawValueText(SpriteBatch spriteBatch, CalculatedStyle dimensions)

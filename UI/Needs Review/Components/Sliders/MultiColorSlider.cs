@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using Microsoft.Xna.Framework;
+using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
 namespace FamiliarFriends;
@@ -47,5 +48,13 @@ public abstract class MultiColorSlider : UIElement
         color = new Color(red, green, blue);
 
         return true;
+    }
+
+    protected static UIColoredImageButton SetupActionButton(UIColoredImageButton button, float leftPixels, Action action)
+    {
+        button.Left = StyleDimension.FromPixels(leftPixels);
+        button.SetVisibility(1f, 0.55f);
+        button.OnLeftMouseDown += (_, _) => action();
+        return button;
     }
 }

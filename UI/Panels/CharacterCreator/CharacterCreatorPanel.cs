@@ -38,16 +38,16 @@ public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
             Height = StyleDimension.FromPixels(200)
         };
 
-        grid.Add(CharacterCreationAssets.Tabs.Appearance);
-        grid.Add(CharacterCreationAssets.Tabs.GetGenderIcon(Gender.Female));
-        grid.Add(CharacterCreationAssets.Tabs.HairStyles);
-        grid.Add(CharacterCreationAssets.Tabs.HairColor);
-        grid.Add(CharacterCreationAssets.Tabs.EyeColor);
-        grid.Add(CharacterCreationAssets.Tabs.SkinColor);
-        grid.Add(CharacterCreationAssets.Tabs.ShirtColor);
-        grid.Add(CharacterCreationAssets.Tabs.UnderShirtColor);
-        grid.Add(CharacterCreationAssets.Tabs.PantsColor);
-        grid.Add(CharacterCreationAssets.Tabs.ShoesColor);
+        grid.Add(GameAssets.Tabs.Appearance);
+        grid.Add(GameAssets.Tabs.GetGenderIcon(Gender.Female));
+        grid.Add(GameAssets.Tabs.HairStyles);
+        grid.Add(GameAssets.Tabs.HairColor);
+        grid.Add(GameAssets.Tabs.EyeColor);
+        grid.Add(GameAssets.Tabs.SkinColor);
+        grid.Add(GameAssets.Tabs.ShirtColor);
+        grid.Add(GameAssets.Tabs.UnderShirtColor);
+        grid.Add(GameAssets.Tabs.PantsColor);
+        grid.Add(GameAssets.Tabs.ShoesColor);
 
         // NAME
         var inputField = new InputField("", "");
