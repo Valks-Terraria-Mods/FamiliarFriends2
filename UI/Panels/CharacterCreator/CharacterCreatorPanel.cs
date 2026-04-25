@@ -59,14 +59,12 @@ public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
         var layout = new VBoxContainer()
         {
             Width = StyleDimension.Fill,
-            Height = StyleDimension.Fill,
-            Spacing = 5f
+            Height = StyleDimension.Fill
         };
 
         var tabRow = new HBoxContainer()
         {
-            Width = StyleDimension.Fill,
-            Spacing = 5f
+            Width = StyleDimension.Fill
         };
 
         var mainContent = new UIElement

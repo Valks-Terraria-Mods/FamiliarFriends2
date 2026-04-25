@@ -12,8 +12,9 @@ public abstract class BoxContainer : UIElement
 {
     private const float AutoEpsilon = 0.001f;
     private const float AutoSetEpsilon = 0.05f;
+    private const float DefaultSpacing = 5f;
 
-    private float _spacing;
+    private float _spacing = DefaultSpacing;
     private BoxContainerAutoSizingState _autoSizingState;
     private bool _isRecalculatingChildren;
     private bool _layoutPassQueued;
