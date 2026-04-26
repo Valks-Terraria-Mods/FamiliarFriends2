@@ -9,11 +9,7 @@ namespace FamiliarFriends;
 
 public static class GameAssets
 {
-    private const string BasePath = "Images/UI/CharCreation/";
-
     private static readonly Dictionary<GameTexture, Asset<Texture2D>> _textureCache = [];
-
-    private static readonly GameTexture[] _allTextures = (GameTexture[])Enum.GetValues(typeof(GameTexture));
 
     public static class Tabs
     {
@@ -36,24 +32,17 @@ public static class GameAssets
         public static UIColoredImageButton Randomize => BuildSmallButton(GameTexture.Randomize);
     }
 
-    public static Asset<Texture2D> CategoryPanel => GetTexture(GameTexture.CategoryPanel);
-    public static Asset<Texture2D> CategoryPanelBorder => GetTexture(GameTexture.CategoryPanelBorder);
-    public static Asset<Texture2D> CategoryPanelHighlight => GetTexture(GameTexture.CategoryPanelHighlight);
-    public static Asset<Texture2D> SmallPanel => GetTexture(GameTexture.SmallPanel);
-    public static Asset<Texture2D> SmallPanelBorder => GetTexture(GameTexture.SmallPanelBorder);
-
-    public static void EnsureLoaded()
-    {
-        foreach (var textureKey in _allTextures)
-        {
-            string path = BasePath + textureKey.ToString();
-            _textureCache[textureKey] = Main.Assets.Request<Texture2D>(path, AssetRequestMode.ImmediateLoad);
-        }
-    }
-
     private static Asset<Texture2D> GetTexture(GameTexture texture)
     {
-        return _textureCache[texture];
+        const string BasePath = "Images/UI/CharCreation/";
+        
+        if (!_textureCache.TryGetValue(texture, out var asset))
+        {
+            asset = Main.Assets.Request<Texture2D>(BasePath + texture.ToString(), AssetRequestMode.ImmediateLoad);
+            _textureCache[texture] = asset;
+        }
+        
+        return asset;
     }
 
     private static UIColoredImageButton BuildSmallButton(GameTexture texture)
@@ -73,13 +62,6 @@ public static class GameAssets
 
     private enum GameTexture
     {
-        CategoryPanel,
-        CategoryPanelBorder,
-        CategoryPanelHighlight,
-        SmallPanel,
-        SmallPanelBorder,
-        Separator1,
-        Separator2,
         CharInfo,
         ClothStyleMale,
         ClothStyleFemale,
@@ -96,9 +78,7 @@ public static class GameAssets
         ColorShoes,
         Copy,
         Paste,
-        Randomize,
-        PanelGrayscale,
-        Voice
+        Randomize
     }
 }
 

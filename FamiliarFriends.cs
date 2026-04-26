@@ -13,8 +13,6 @@ public class FamiliarFriends : Mod
     {
         _instance = this;
 
-        GameAssets.EnsureLoaded();
-
         ModHandle modHandle = ValkyrieAPI.GetHandle(this);
 
         modHandle.RegisterUI("Character Creator", "H", () => new CharacterCreatorPanel());
