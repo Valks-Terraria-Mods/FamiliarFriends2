@@ -8,7 +8,7 @@ using ValkyrieLib;
 
 namespace FamiliarFriends;
 
-public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
+public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
 {
     public UIElement MainElement { get; private set; }
 
