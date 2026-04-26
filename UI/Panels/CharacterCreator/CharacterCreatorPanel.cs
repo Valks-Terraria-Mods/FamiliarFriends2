@@ -108,6 +108,12 @@ public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
         return element;
     }
 
+    private static UIElement BuildClothingTab()
+    {
+        var element = new UIElement();
+        return element;
+    }
+
     private static UIElement BuildAppearanceTab()
     {
         var element = new UIElement

@@ -5,6 +5,7 @@ using ReLogic.OS;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
+using ValkyrieLib;
 
 namespace FamiliarFriends;
 

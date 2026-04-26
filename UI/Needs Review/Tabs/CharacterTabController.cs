@@ -7,6 +7,7 @@ using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.UI;
+using ValkyrieLib;
 
 namespace FamiliarFriends;
 
