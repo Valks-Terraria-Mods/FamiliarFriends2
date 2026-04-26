@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ReLogic.Content;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameInput;
@@ -11,61 +12,24 @@ namespace FamiliarFriends;
 
 public class InputField : UIElement
 {
-    private const int DefaultMaxLength = 20;
-    private const float DefaultHeightPixels = 40f;
-    private const float DefaultValuePaddingPixels = 10f;
-    private const float HoverOverlayAlpha = 0.55f;
-    private const int CaretBlinkPeriodTicks = 40;
-    private const int CaretVisibleTicks = 20;
-    private const float CaretSpacingPixels = 2f;
+    public event Action<string> ValueChanged;
 
-    private readonly string _placeholder;
+    public int MaxLength { get; set; } = 20;
 
+    private static Color _transparentColor = new(100, 100, 100, 100);
+    private const int Margin = 10;
     private string _value;
     private bool _hovered;
     private bool _focused;
 
-    public event Action<string> ValueChanged;
+    private readonly string _prefix;
 
-    public int MaxLength { get; set; } = DefaultMaxLength;
-
-    public string Value => _value;
-
-    public bool IsFocused => _focused;
-
-    public bool CenterValueText { get; set; }
-
-    public float CenteredValueVerticalOffset { get; set; }
-
-    protected virtual float ValueLeftPadding => DefaultValuePaddingPixels;
-
-    protected virtual float ValueTopPadding => DefaultValuePaddingPixels;
-
-    public InputField(string placeholder, string initialValue)
+    public InputField(string prefix, string initialValue = "")
     {
-        _placeholder = placeholder ?? string.Empty;
+        _prefix = prefix;
         Width.Set(0f, 1f);
-        Height.Set(DefaultHeightPixels, 0f);
-        CenteredValueVerticalOffset = 0f;
+        Height.Set(40, 0f);
         SetValue(initialValue, notify: false);
-    }
-
-    public void SetValue(string value, bool notify = true)
-    {
-        string normalized = NormalizeValue(value);
-
-        if (_value == normalized)
-            return;
-
-        _value = normalized;
-
-        if (notify)
-            ValueChanged?.Invoke(_value);
-    }
-
-    public void ClearFocus()
-    {
-        _focused = false;
     }
 
     public override void LeftMouseDown(UIMouseEvent evt)
@@ -90,11 +54,7 @@ public class InputField : UIElement
     {
         base.Update(gameTime);
 
-        bool clickedOutside = _focused
-            && !ContainsPoint(Main.MouseScreen)
-            && (Main.mouseLeft || Main.mouseRight);
-
-        if (clickedOutside)
+        if (HasClickedOutside(this, _focused))
             _focused = false;
     }
 
@@ -113,13 +73,68 @@ public class InputField : UIElement
             Main.LocalPlayer.mouseInterface = true;
     }
 
-    protected void UpdateFocusedTextInput()
+    public void SetValue(string value, bool notify = true)
+    {
+        string normalizedValue = value.Replace(" ", "");
+
+        if (normalizedValue.Length > MaxLength)
+            normalizedValue = normalizedValue[..MaxLength];
+
+        _value = normalizedValue;
+
+        if (notify)
+            ValueChanged?.Invoke(_value);
+    }
+
+    public void ClearFocus()
+    {
+        _focused = false;
+    }
+
+    private void DrawBackground(SpriteBatch spriteBatch, CalculatedStyle dimensions)
+    {
+        int x = (int)dimensions.X;
+        int y = (int)dimensions.Y;
+        int width = (int)dimensions.Width;
+        int height = (int)dimensions.Height;
+
+        DrawSplicedPanel(spriteBatch, GameAssets.CategoryPanel, x, y, width, height, _transparentColor);
+
+        if (_hovered || _focused)
+            DrawSplicedPanel(spriteBatch, GameAssets.CategoryPanelBorder, x, y, width, height, Color.White);
+    }
+
+    private void DrawValueText(SpriteBatch spriteBatch, CalculatedStyle dimensions)
+    {
+        const int ValueLeftPadding = 70;
+
+        Vector2 valuePos = new(dimensions.X + ValueLeftPadding, dimensions.Y + Margin);
+
+        Utils.DrawBorderString(spriteBatch, _value, valuePos, Color.White);
+
+        if (!CaretCanBlink(_focused))
+            return;
+        
+        DrawCaret(spriteBatch, valuePos, _value);
+    }
+
+    private void DrawPrefixText(SpriteBatch spriteBatch, CalculatedStyle dimensions)
+    {
+        Vector2 titlePos = new(dimensions.X + Margin, dimensions.Y + Margin);
+        Utils.DrawBorderString(spriteBatch, _prefix, titlePos, Color.White);
+    }
+
+    private void UpdateFocusedTextInput()
     {
         if (!_focused)
             return;
 
-        PlayerInput.WritingText = true;
-        Main.instance.HandleIME();
+        // Prevent the player moving around when typing
+        PlayerInput.WritingText = true; 
+
+        // Handles special multilanguage characters
+        Main.instance.HandleIME(); 
+        
         SetValue(Main.GetInputText(_value));
 
         KeyboardState keys = Main.keyState;
@@ -128,59 +143,31 @@ public class InputField : UIElement
             _focused = false;
     }
 
-    protected virtual void DrawBackground(SpriteBatch spriteBatch, CalculatedStyle dimensions)
+    private static bool CaretCanBlink(bool isFocused)
     {
-        int x = (int)dimensions.X;
-        int y = (int)dimensions.Y;
-        int width = (int)dimensions.Width;
-        int height = (int)dimensions.Height;
+        const int CaretVisibleTicks = 20;
+        const int CaretBlinkPeriodTicks = 40;
 
-        Utils.DrawSplicedPanel(spriteBatch, GameAssets.CategoryPanel.Value, x, y, width, height, 10, 10, 10, 10, Color.White * HoverOverlayAlpha);
-
-        if (_hovered || _focused)
-            Utils.DrawSplicedPanel(spriteBatch, GameAssets.CategoryPanelBorder.Value, x, y, width, height, 10, 10, 10, 10, Color.White);
+        return isFocused && Main.GameUpdateCount % CaretBlinkPeriodTicks < CaretVisibleTicks;
     }
 
-    protected virtual void DrawValueText(SpriteBatch spriteBatch, CalculatedStyle dimensions)
+    private static bool HasClickedOutside(UIElement element, bool isFocused)
     {
-        string valueText = BuildDisplayValueText();
-        Color valueColor = string.IsNullOrWhiteSpace(_value) ? Color.Gray : Color.White;
+        return isFocused && !element.ContainsPoint(Main.MouseScreen) && (Main.mouseLeft || Main.mouseRight);
+    }
+
+    private static void DrawCaret(SpriteBatch spriteBatch, Vector2 valuePos, string valueText)
+    {
+        const int CaretSpacingPixels = 2;
 
         Vector2 textSize = FontAssets.MouseText.Value.MeasureString(valueText);
-        Vector2 valuePos = CenterValueText
-            ? new(
-                dimensions.X + ((dimensions.Width - textSize.X) * 0.5f),
-                dimensions.Y + ((dimensions.Height - textSize.Y) * 0.5f) + CenteredValueVerticalOffset)
-            : new((int)dimensions.X + ValueLeftPadding, (int)dimensions.Y + ValueTopPadding);
-
-        Utils.DrawBorderString(spriteBatch, valueText, valuePos, valueColor);
-
-        if (!_focused || Main.GameUpdateCount % CaretBlinkPeriodTicks >= CaretVisibleTicks)
-            return;
-
         Vector2 caretPos = new(valuePos.X + textSize.X + CaretSpacingPixels, valuePos.Y);
+
         Utils.DrawBorderString(spriteBatch, "|", caretPos, Color.White);
     }
 
-    protected virtual string BuildDisplayValueText()
+    private static void DrawSplicedPanel(SpriteBatch spriteBatch, Asset<Texture2D> texture, int x, int y, int width, int height, Color color)
     {
-        return string.IsNullOrWhiteSpace(_value) ? _placeholder : _value;
-    }
-
-    protected virtual void DrawPrefixText(SpriteBatch spriteBatch, CalculatedStyle dimensions)
-    {
-    }
-
-    protected virtual string NormalizeValue(string value)
-    {
-        if (string.IsNullOrEmpty(value))
-            return string.Empty;
-
-        string normalized = value.Replace("\r", string.Empty).Replace("\n", string.Empty);
-
-        if (normalized.Length > MaxLength)
-            normalized = normalized[..MaxLength];
-
-        return normalized;
+        Utils.DrawSplicedPanel(spriteBatch, texture.Value, x, y, width, height, leftEnd: Margin, rightEnd: Margin, topEnd: Margin, bottomEnd: Margin, color);
     }
 }

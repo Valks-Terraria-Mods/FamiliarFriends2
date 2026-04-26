@@ -123,7 +123,8 @@ public class CharacterCreatorPanel : UIState, IHasMainElement, IClosable
         };
 
         // NAME
-        var inputField = new InputField("", "");
+        var inputField = new InputField("Name:");
+
         element.Append(inputField);
 
         // CLOTHING
