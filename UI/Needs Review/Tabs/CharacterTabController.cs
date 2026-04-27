@@ -14,12 +14,12 @@ namespace FamiliarFriends;
 public sealed class CharacterTabController(UIElement contentHost)
 {
     private readonly UIElement _contentHost = contentHost;
-    private readonly Dictionary<CharacterCreatorTab, UIColoredImageButton> _buttons = [];
-    private readonly Dictionary<CharacterCreatorTab, UIElement> _contentByTab = [];
+    private readonly Dictionary<CharacterTab, UIColoredImageButton> _buttons = [];
+    private readonly Dictionary<CharacterTab, UIElement> _contentByTab = [];
 
-    public event Action<CharacterCreatorTab> TabChanged;
+    public event Action<CharacterTab> TabChanged;
 
-    public void AddTab(HBoxContainer row, CharacterCreatorTab tab, Asset<Texture2D> icon, UIElement content, Asset<Texture2D> middle = null)
+    public void AddTab(HBoxContainer row, CharacterTab tab, Asset<Texture2D> icon, UIElement content, Asset<Texture2D> middle = null)
     {
         UIColoredImageButton button = new(icon);
         button.SetVisibility(1f, 0.5f);
@@ -34,7 +34,7 @@ public sealed class CharacterTabController(UIElement contentHost)
         _contentByTab[tab] = content;
     }
 
-    public void SelectTab(CharacterCreatorTab tab, bool playSound = true)
+    public void SelectTab(CharacterTab tab, bool playSound = true)
     {
         if (!_contentByTab.TryGetValue(tab, out UIElement content))
             return;
@@ -45,19 +45,19 @@ public sealed class CharacterTabController(UIElement contentHost)
         _contentHost.RemoveAllChildren();
         _contentHost.Append(content);
 
-        foreach (KeyValuePair<CharacterCreatorTab, UIColoredImageButton> pair in _buttons)
+        foreach (KeyValuePair<CharacterTab, UIColoredImageButton> pair in _buttons)
             pair.Value.SetSelected(pair.Key == tab);
 
         TabChanged?.Invoke(tab);
     }
 
-    public void SetTabColor(CharacterCreatorTab tab, Color color)
+    public void SetTabColor(CharacterTab tab, Color color)
     {
         if (_buttons.TryGetValue(tab, out UIColoredImageButton button))
             button.SetColor(color);
     }
 
-    public void SetTabIcon(CharacterCreatorTab tab, Asset<Texture2D> icon)
+    public void SetTabIcon(CharacterTab tab, Asset<Texture2D> icon)
     {
         if (_buttons.TryGetValue(tab, out UIColoredImageButton button))
             button.SetImageWithoutSettingSize(icon);

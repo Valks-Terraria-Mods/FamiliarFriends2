@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader.UI;
 using Terraria.ModLoader.UI.Elements;
 using Terraria.UI;
 using ValkyrieLib;
@@ -17,7 +19,7 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
     private static Color BackgroundColor = new(29, 37, 69, 224);
     private static Color BorderColor = new(77, 96, 151);
 
-    private readonly Dictionary<CharacterCreatorTab, CharacterTab> _tabs = [];
+    private readonly Dictionary<CharacterTab, CharacterTabPage> _tabs = [];
 
     public override void OnInitialize()
     {
@@ -49,16 +51,16 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
             Height = StyleDimension.Fill
         };
 
-        _tabs.Add(CharacterCreatorTab.Appearance, new CharacterTab(mainContent, GameAssets.Tabs.Appearance, BuildAppearanceTab()));
-        _tabs.Add(CharacterCreatorTab.Clothing, new CharacterTab(mainContent, GameAssets.Tabs.GetGenderIcon(Gender.Female), BuildColorTab()));
-        _tabs.Add(CharacterCreatorTab.HairStyles, new CharacterTab(mainContent, GameAssets.Tabs.HairStyles, BuildColorTab()));
-        _tabs.Add(CharacterCreatorTab.HairColor, new CharacterTab(mainContent, GameAssets.Tabs.HairColor, BuildColorTab()));
-        _tabs.Add(CharacterCreatorTab.EyeColor, new CharacterTab(mainContent, GameAssets.Tabs.EyeColor, BuildColorTab()));
-        _tabs.Add(CharacterCreatorTab.SkinColor, new CharacterTab(mainContent, GameAssets.Tabs.SkinColor, BuildColorTab()));
-        _tabs.Add(CharacterCreatorTab.ShirtColor, new CharacterTab(mainContent, GameAssets.Tabs.ShirtColor, BuildColorTab()));
-        _tabs.Add(CharacterCreatorTab.UnderShirtColor, new CharacterTab(mainContent, GameAssets.Tabs.UnderShirtColor, BuildColorTab()));
-        _tabs.Add(CharacterCreatorTab.PantsColor, new CharacterTab(mainContent, GameAssets.Tabs.PantsColor, BuildColorTab()));
-        _tabs.Add(CharacterCreatorTab.ShoesColor, new CharacterTab(mainContent, GameAssets.Tabs.ShoesColor, BuildColorTab()));
+        _tabs.Add(CharacterTab.Appearance, new CharacterTabPage(mainContent, GameAssets.Tabs.Appearance, BuildAppearanceTab()));
+        _tabs.Add(CharacterTab.Clothing, new CharacterTabPage(mainContent, GameAssets.Tabs.GetGenderIcon(Gender.Female), BuildClothingTab()));
+        _tabs.Add(CharacterTab.HairStyles, new CharacterTabPage(mainContent, GameAssets.Tabs.HairStyles, BuildHairStyleTab()));
+        _tabs.Add(CharacterTab.HairColor, new CharacterTabPage(mainContent, GameAssets.Tabs.HairColor, BuildColorTab()));
+        _tabs.Add(CharacterTab.EyeColor, new CharacterTabPage(mainContent, GameAssets.Tabs.EyeColor, BuildColorTab()));
+        _tabs.Add(CharacterTab.SkinColor, new CharacterTabPage(mainContent, GameAssets.Tabs.SkinColor, BuildColorTab()));
+        _tabs.Add(CharacterTab.ShirtColor, new CharacterTabPage(mainContent, GameAssets.Tabs.ShirtColor, BuildColorTab()));
+        _tabs.Add(CharacterTab.UnderShirtColor, new CharacterTabPage(mainContent, GameAssets.Tabs.UnderShirtColor, BuildColorTab()));
+        _tabs.Add(CharacterTab.PantsColor, new CharacterTabPage(mainContent, GameAssets.Tabs.PantsColor, BuildColorTab()));
+        _tabs.Add(CharacterTab.ShoesColor, new CharacterTabPage(mainContent, GameAssets.Tabs.ShoesColor, BuildColorTab()));
 
         foreach (var tab in _tabs.Values)
             tabRow.Append(tab.Button);
@@ -68,7 +70,7 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
 
         panel.Append(layout);
 
-        _tabs[CharacterCreatorTab.Appearance].Select();
+        _tabs[CharacterTab.Appearance].Select();
 
         // CLOSE BUTTON
         var closeButton = UiControlFactory.CloseBtn();
@@ -78,21 +80,15 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
         MainElement = panel;
     }
 
-    private static UIElement BuildColorTab()
-    {
-        var element = new UIElement();
-        return element;
-    }
-
-    private static UIElement BuildClothingTab()
-    {
-        var element = new UIElement();
-        return element;
-    }
-
     private static UIElement BuildAppearanceTab()
     {
         var element = new UIElement
+        {
+            Width = StyleDimension.Fill,
+            Height = StyleDimension.Fill,
+        };
+
+        var topVbox = new VBoxContainer()
         {
             Width = StyleDimension.Fill,
             Height = StyleDimension.Fill
@@ -100,10 +96,32 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
 
         // NAME
         var inputField = new InputField("Name:");
+        var spawnBtn = new UIButton<string>("Spawn")
+        {
+            ScalePanel = true,
+            PaddingTop = 5,
+            PaddingBottom = 5,
+            PaddingLeft = 40,
+            PaddingRight = 40,
+            VAlign = 1.0f
+        };
 
-        element.Append(inputField);
+        topVbox.Append(inputField);
 
-        // CLOTHING
+        element.Append(topVbox);
+        element.Append(spawnBtn);
+
+        return element;
+    }
+
+    private static UIElement BuildClothingTab()
+    {
+        var element = new UIElement
+        {
+            Width = StyleDimension.Fill,
+            Height = StyleDimension.Fill
+        };
+
         var maleStyles = StaticClothStyleButton.MaleStyles;
         var femaleStyles = StaticClothStyleButton.FemaleStyles;
 
@@ -134,6 +152,42 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
         element.Append(maleGrid);
         element.Append(femaleGrid);
 
+        return element;
+    }
+
+    private static UIElement BuildHairStyleTab()
+    {
+        var element = new UIElement
+        {
+            Width = StyleDimension.Fill,
+            Height = StyleDimension.Fill
+        };
+
+        return element;
+    }
+
+    private static UIElement BuildColorTab()
+    {
+        var element = new UIElement
+        {
+            Width = StyleDimension.Fill,
+            Height = StyleDimension.Fill
+        };
+
+        var sliderPanel = new UIPanel()
+        {
+            Width = StyleDimension.FromPercent(0.6f),
+            Height = StyleDimension.FromPixels(152f),
+            HAlign = 0.5f,
+            VAlign = 0.5f,
+            BackgroundColor = new Color(23, 33, 65) * 0.9f,
+        };
+
+        var hsvSlider = new HsvSlider(Color.White);
+
+        sliderPanel.Append(hsvSlider);
+        element.Append(sliderPanel);
+        
         return element;
     }
 }
