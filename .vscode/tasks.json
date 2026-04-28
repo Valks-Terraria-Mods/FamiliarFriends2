@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-familiarfriends",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "FamiliarFriends.csproj"
+            ],
+            "isBackground": false
+        }
+    ]
+}
