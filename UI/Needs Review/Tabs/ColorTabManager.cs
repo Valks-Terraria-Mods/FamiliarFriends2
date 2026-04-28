@@ -74,8 +74,8 @@ public sealed class ColorTabManager
         // _suppressEditorCallbacks = false;
     }
 
-    public static void ApplyTabColors(CharacterTabController tabController)
-    {
+    // public static void ApplyTabColors(CharacterTabController tabController)
+    // {
         // tabController.SetTabColor(CharacterCreatorTab.HairStyles, CharacterAppearanceBinding.GetColor(AppearanceColorTarget.Hair));
         // tabController.SetTabColor(CharacterCreatorTab.HairColor, CharacterAppearanceBinding.GetColor(AppearanceColorTarget.Hair));
         // tabController.SetTabColor(CharacterCreatorTab.EyeColor, CharacterAppearanceBinding.GetColor(AppearanceColorTarget.Eye));
@@ -84,7 +84,7 @@ public sealed class ColorTabManager
         // tabController.SetTabColor(CharacterCreatorTab.UnderShirtColor, CharacterAppearanceBinding.GetColor(AppearanceColorTarget.UnderShirt));
         // tabController.SetTabColor(CharacterCreatorTab.PantsColor, CharacterAppearanceBinding.GetColor(AppearanceColorTarget.Pants));
         // tabController.SetTabColor(CharacterCreatorTab.ShoesColor, CharacterAppearanceBinding.GetColor(AppearanceColorTarget.Shoes));
-    }
+    // }
 
     private void ApplyEditorColor(AppearanceColorTarget target, HsvSlider sourceEditor, Color color)
     {
