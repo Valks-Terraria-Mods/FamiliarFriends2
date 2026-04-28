@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
+using ValkyrieLib;
 
 namespace FamiliarFriends;
 
@@ -25,13 +26,6 @@ public static class GameAssets
         public static UIColoredImageButton ShoesColor => BuildButton(GameTexture.ColorShoes);
     }
 
-    public static class ColorActions
-    {
-        public static UIColoredImageButton Copy => BuildSmallButton(GameTexture.Copy);
-        public static UIColoredImageButton Paste => BuildSmallButton(GameTexture.Paste);
-        public static UIColoredImageButton Randomize => BuildSmallButton(GameTexture.Randomize);
-    }
-
     private static Asset<Texture2D> GetTexture(GameTexture texture)
     {
         const string BasePath = "Images/UI/CharCreation/";
@@ -43,11 +37,6 @@ public static class GameAssets
         }
         
         return asset;
-    }
-
-    private static UIColoredImageButton BuildSmallButton(GameTexture texture)
-    {
-        return new UIColoredImageButton(GetTexture(texture), isSmall: true);
     }
 
     private static UIColoredImageButton BuildButton(GameTexture texture, GameTexture middleTexture = default)
@@ -75,10 +64,7 @@ public static class GameAssets
         ColorShirt,
         ColorUndershirt,
         ColorPants,
-        ColorShoes,
-        Copy,
-        Paste,
-        Randomize
+        ColorShoes
     }
 }
 

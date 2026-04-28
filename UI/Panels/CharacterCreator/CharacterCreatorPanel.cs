@@ -163,6 +163,20 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
             Height = StyleDimension.Fill
         };
 
+        var vbox = new VBoxContainer();
+
+        var title = new UIText("Hair Style")
+        {
+            Width = StyleDimension.Fill,
+            HAlign = 0.5f,
+            PaddingTop = 10,
+            PaddingBottom = 10
+        };
+
+        vbox.Append(title);
+
+        element.Append(vbox);
+
         return element;
     }
 
