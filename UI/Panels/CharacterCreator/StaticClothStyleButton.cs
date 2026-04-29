@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
@@ -62,5 +63,13 @@ public class StaticClothStyleButton : UIClothStyleButton
         _previewPlayer = player;
         _clothStyleId = clothStyleId;
         _forceMale = forceMale;
+    }
+
+    public override void Draw(SpriteBatch spriteBatch)
+    {
+        // Prevent this button receiving any game world lighting
+        _previewPlayer.socialIgnoreLight = true;
+
+        base.Draw(spriteBatch);
     }
 }
