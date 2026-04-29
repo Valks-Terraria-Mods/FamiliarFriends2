@@ -46,20 +46,20 @@ public class StaticClothStyleButton : UIClothStyleButton
     private readonly int _clothStyleId;
     private readonly bool? _forceMale;
 
-    public StaticClothStyleButton(ClothStyle clothStyleId)
-        : this(new Player(), (int)clothStyleId, null)
+    public StaticClothStyleButton(Player player, ClothStyle clothStyleId)
+        : this(player, (int)clothStyleId, null)
     {
     }
 
-    public StaticClothStyleButton(ClothStyle clothStyleId, bool? forceMale)
-        : this(new Player(), (int)clothStyleId, forceMale)
+    public StaticClothStyleButton(Player player, ClothStyle clothStyleId, bool? forceMale)
+        : this(player, (int)clothStyleId, forceMale)
     {
     }
 
-    private StaticClothStyleButton(Player previewPlayer, int clothStyleId, bool? forceMale)
-        : base(previewPlayer, clothStyleId)
+    private StaticClothStyleButton(Player player, int clothStyleId, bool? forceMale)
+        : base(player, clothStyleId)
     {
-        _previewPlayer = previewPlayer;
+        _previewPlayer = player;
         _clothStyleId = clothStyleId;
         _forceMale = forceMale;
     }

@@ -25,6 +25,9 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
     public override void OnInitialize()
     {
         base.OnInitialize();
+
+        Player player = new();
+
         var panel = new UIPanel();
         panel.Width.Set(600, 0);
         panel.Height.Set(350, 0);
@@ -52,19 +55,29 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
             Height = StyleDimension.Fill  
         };
 
-        _tabs.Add(CharacterTabType.Appearance, new AppearanceTab(mainContent));
-        _tabs.Add(CharacterTabType.Clothing, new ClothingTab(mainContent));
-        _tabs.Add(CharacterTabType.HairStyles, new HairStylesTab(mainContent));
-        _tabs.Add(CharacterTabType.HairColor, new HairColorTab(mainContent));
-        _tabs.Add(CharacterTabType.EyeColor, new EyeColorTab(mainContent));
-        _tabs.Add(CharacterTabType.SkinColor, new SkinColorTab(mainContent));
-        _tabs.Add(CharacterTabType.ShirtColor, new ShirtColorTab(mainContent));
-        _tabs.Add(CharacterTabType.UnderShirtColor, new UnderShirtColorTab(mainContent));
-        _tabs.Add(CharacterTabType.PantsColor, new PantsColorTab(mainContent));
-        _tabs.Add(CharacterTabType.ShoesColor, new ShoesColorTab(mainContent));
+        _tabs.Add(CharacterTabType.Appearance, new AppearanceTab(mainContent, player));
+        _tabs.Add(CharacterTabType.Clothing, new ClothingTab(mainContent, player));
+        _tabs.Add(CharacterTabType.HairStyles, new HairStylesTab(mainContent, player));
+        _tabs.Add(CharacterTabType.HairColor, new HairColorTab(mainContent, player));
+        _tabs.Add(CharacterTabType.EyeColor, new EyeColorTab(mainContent, player));
+        _tabs.Add(CharacterTabType.SkinColor, new SkinColorTab(mainContent, player));
+        _tabs.Add(CharacterTabType.ShirtColor, new ShirtColorTab(mainContent, player));
+        _tabs.Add(CharacterTabType.UnderShirtColor, new UnderShirtColorTab(mainContent, player));
+        _tabs.Add(CharacterTabType.PantsColor, new PantsColorTab(mainContent, player));
+        _tabs.Add(CharacterTabType.ShoesColor, new ShoesColorTab(mainContent, player));
 
         foreach (var tab in _tabs.Values)
+        {
             tabRow.Append(tab.Btn);
+            
+            tab.Btn.OnLeftClick += (_, _) =>
+            {
+                foreach (var tab in _tabs.Values)
+                    tab.Btn.SetSelected(false);
+
+                tab.Btn.SetSelected(true);
+            };
+        }
 
         layout.Append(tabRow);
         layout.Append(mainContent);

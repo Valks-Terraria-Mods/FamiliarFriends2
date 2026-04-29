@@ -1,4 +1,5 @@
 using FamiliarFriends;
+using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
@@ -6,7 +7,7 @@ using ValkyrieLib;
 
 namespace FamiliarFriends;
 
-public class AppearanceTab(UIElement parent) : CharacterTab(parent)
+public class AppearanceTab(UIElement parent, Player player) : CharacterTab(parent, player)
 {
     public override UIColoredImageButton Btn { get; } = GameAssets.Tabs.Appearance;
     protected override bool NoTitle { get; } = true;
