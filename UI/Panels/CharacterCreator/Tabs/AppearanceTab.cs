@@ -1,6 +1,8 @@
 using FamiliarFriends;
+using FamiliarFriends.NPCs;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
 using ValkyrieLib;
@@ -25,7 +27,27 @@ public class AppearanceTab(UIElement parent, Player player) : CharacterTab(paren
             VAlign = 1.0f
         };
 
+        spawnBtn.OnLeftClick += (_, _) => SpawnFriend(PlayerRender);
+
         vbox.Append(inputField);
         element.Append(spawnBtn);
+    }
+
+    private static void SpawnFriend(Player playerRender)
+    {
+        Player localPlayer = Main.LocalPlayer;
+
+        int npcIndex = NPC.NewNPC(
+            localPlayer.GetSource_FromThis(),
+            (int)localPlayer.Center.X,
+            (int)localPlayer.Center.Y,
+            ModContent.NPCType<Friend>()
+        );
+
+        if (Main.npc[npcIndex].ModNPC is Friend friend)
+        {
+            friend.Owner = localPlayer;
+            friend.Sprite = playerRender;
+        }
     }
 }

@@ -4,3 +4,36 @@ Keybinds: {
 	"Character Creator.DisplayName": Character  Creator
 	Hello.DisplayName: Hello
 }
+
+NPCs.Friend.DisplayName: Friend
+
+Configs: {
+	FriendAiConfig: {
+		DisplayName: Friend Ai Config
+
+		MinFollowDistance: {
+			Label: Min Follow Distance
+			Tooltip: ""
+		}
+
+		MinWalkSpeed: {
+			Label: Min Walk Speed
+			Tooltip: ""
+		}
+
+		MaxWalkSpeed: {
+			Label: Max Walk Speed
+			Tooltip: ""
+		}
+
+		WalkAcceleration: {
+			Label: Walk Acceleration
+			Tooltip: ""
+		}
+
+		WalkDeacceleration: {
+			Label: Walk Deacceleration
+			Tooltip: ""
+		}
+	}
+}

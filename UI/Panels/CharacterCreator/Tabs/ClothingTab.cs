@@ -54,10 +54,10 @@ public class ClothingTab(UIElement parent, Player player) : CharacterTab(parent,
         var femaleStyles = StaticClothStyleButton.FemaleStyles;
 
         for (int i = 0; i < maleStyles.Length; i++)
-            maleGrid.Add(new StaticClothStyleButton(Player, maleStyles[i]));
+            maleGrid.Add(new StaticClothStyleButton(PlayerRender, maleStyles[i]));
 
         for (int i = 0; i < femaleStyles.Length; i++)
-            femaleGrid.Add(new StaticClothStyleButton(Player, femaleStyles[i]));
+            femaleGrid.Add(new StaticClothStyleButton(PlayerRender, femaleStyles[i]));
 
         var maleGenderBtn = GameAssets.Tabs.GetGenderIcon(Gender.Male);
         var femaleGenderBtn = GameAssets.Tabs.GetGenderIcon(Gender.Female);
@@ -68,7 +68,7 @@ public class ClothingTab(UIElement parent, Player player) : CharacterTab(parent,
         femaleGenderBtn.HAlign = 0.5f + GenderBtnSeparation;
         femaleGenderBtn.VAlign = GenderBtnInset;
 
-        if (Player.Male)
+        if (PlayerRender.Male)
             maleGenderBtn.SetSelected(true);
         else
             femaleGenderBtn.SetSelected(true);

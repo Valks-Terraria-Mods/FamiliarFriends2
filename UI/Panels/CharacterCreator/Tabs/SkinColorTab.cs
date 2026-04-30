@@ -8,6 +8,6 @@ namespace FamiliarFriends;
 public class SkinColorTab(UIElement parent, Player player) : CharacterColorTab(parent, player)
 {
     public override UIColoredImageButton Btn { get; } = GameAssets.Tabs.SkinColor;
-    protected override Color Color => Player.skinColor;
+    protected override Color Color => PlayerRender.skinColor;
     protected override string Title { get; } = "Skin Color";
 }

@@ -9,6 +9,6 @@ namespace FamiliarFriends;
 public class HairColorTab(UIElement parent, Player player) : CharacterColorTab(parent, player)
 {
     public override UIColoredImageButton Btn { get; } = GameAssets.Tabs.HairColor;
-    protected override Color Color => Player.hairColor;
+    protected override Color Color => PlayerRender.hairColor;
     protected override string Title { get; } = "Hair Color";
 }

@@ -10,7 +10,7 @@ public abstract class CharacterTab
 {
     public abstract UIColoredImageButton Btn { get; }
     protected virtual Color Color { get; }
-    protected Player Player { get; }
+    protected Player PlayerRender { get; }
     protected virtual string Title { get; }
     protected virtual bool NoTitle { get; }
 
@@ -20,7 +20,7 @@ public abstract class CharacterTab
     protected CharacterTab(UIElement parent, Player player)
     {
         _parent = parent;
-        Player = player;
+        PlayerRender = player;
 
         _content = new UIElement
         {

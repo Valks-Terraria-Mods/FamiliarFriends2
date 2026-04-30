@@ -27,16 +27,18 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
         base.OnInitialize();
 
         var localPlayer = Main.LocalPlayer;
-        var player = new Player();
-        player.hair = localPlayer.hair;
-        player.hairColor = localPlayer.hairColor;
-        player.skinColor = localPlayer.skinColor;
-        player.skinVariant = localPlayer.skinVariant;
-        player.eyeColor = localPlayer.eyeColor;
-        player.shirtColor = localPlayer.shirtColor;
-        player.underShirtColor = localPlayer.underShirtColor;
-        player.pantsColor = localPlayer.pantsColor;
-        player.shoeColor = localPlayer.shoeColor;
+        var player = new Player
+        {
+            hair = localPlayer.hair,
+            hairColor = localPlayer.hairColor,
+            skinColor = localPlayer.skinColor,
+            skinVariant = localPlayer.skinVariant,
+            eyeColor = localPlayer.eyeColor,
+            shirtColor = localPlayer.shirtColor,
+            underShirtColor = localPlayer.underShirtColor,
+            pantsColor = localPlayer.pantsColor,
+            shoeColor = localPlayer.shoeColor
+        };
 
         var panel = new UIPanel();
         panel.Width.Set(600, 0);
