@@ -16,10 +16,6 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
 
     public event Action CloseRequested;
 
-    private static Color BackgroundColor = new(29, 37, 69, 224);
-    private static Color BorderColor = new(77, 96, 151);
-    private static Color HsvPanelColor = new(21, 30, 59, 230);
-
     private readonly Dictionary<CharacterTabType, CharacterTab> _tabs = [];
 
     public override void OnInitialize()
@@ -43,8 +39,8 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
         var panel = new UIPanel();
         panel.Width.Set(600, 0);
         panel.Height.Set(350, 0);
-        panel.BackgroundColor = BackgroundColor;
-        panel.BorderColor = BorderColor;
+        panel.BackgroundColor = ValkyrieAPI.UI.Colors.LightBackground;
+        panel.BorderColor = ValkyrieAPI.UI.Colors.Border;
         panel.HAlign = 0.5f;
         panel.VAlign = 0.5f;
         Append(panel);
@@ -99,7 +95,7 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
         _tabs[CharacterTabType.Appearance].Select();
 
         // CLOSE BUTTON
-        var closeButton = UiControlFactory.CloseBtn();
+        var closeButton = ValkyrieAPI.UI.CreateCloseButton();
         closeButton.OnLeftClick += (_, _) => CloseRequested?.Invoke();
         panel.Append(closeButton);
         
@@ -114,7 +110,7 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
             Height = StyleDimension.FromPixels(152f),
             HAlign = 0.5f,
             VAlign = 0.5f,
-            BackgroundColor = HsvPanelColor,
+            BackgroundColor = ValkyrieAPI.UI.Colors.DarkBackground
         };
 
         var hsvSlider = new HsvSlider(Color.White);
