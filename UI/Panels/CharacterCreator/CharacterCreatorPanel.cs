@@ -10,7 +10,7 @@ using ValkyrieLib;
 
 namespace FamiliarFriends;
 
-public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
+public class CharacterCreatorPanel : UIState, IBlocksInput, IHasCloseButton
 {
     public UIElement MainElement { get; private set; }
 
@@ -93,11 +93,6 @@ public class CharacterCreatorPanel : UIState, IInputConsumer, IClosable
         panel.Append(layout);
 
         _tabs[CharacterTabType.Appearance].Select();
-
-        // CLOSE BUTTON
-        var closeButton = ValkyrieAPI.UI.CreateCloseButton();
-        closeButton.OnLeftClick += (_, _) => CloseRequested?.Invoke();
-        panel.Append(closeButton);
         
         MainElement = panel;
     }
