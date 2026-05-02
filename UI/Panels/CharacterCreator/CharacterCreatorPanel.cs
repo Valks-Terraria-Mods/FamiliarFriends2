@@ -10,11 +10,9 @@ using ValkyrieLib;
 
 namespace FamiliarFriends;
 
-public class CharacterCreatorPanel : UIState, IBlocksInput, IHasCloseButton
+public class CharacterCreatorPanel : UIState, IBlocksInput, IHasCloseButton, IHasMainPanel
 {
-    public UIElement MainElement { get; private set; }
-
-    public event Action CloseRequested;
+    public UIElement MainElement { get; set; }
 
     private readonly Dictionary<CharacterTabType, CharacterTab> _tabs = [];
 
@@ -36,14 +34,10 @@ public class CharacterCreatorPanel : UIState, IBlocksInput, IHasCloseButton
             shoeColor = localPlayer.shoeColor
         };
 
-        var panel = new UIPanel();
-        panel.Width.Set(600, 0);
-        panel.Height.Set(350, 0);
-        panel.BackgroundColor = ValkyrieAPI.UI.Colors.LightBackground;
-        panel.BorderColor = ValkyrieAPI.UI.Colors.Border;
-        panel.HAlign = 0.5f;
-        panel.VAlign = 0.5f;
-        Append(panel);
+        MainElement.Width.Set(600, 0);
+        MainElement.Height.Set(350, 0);
+
+        Append(MainElement);
 
         // TABS
         var layout = new VBoxContainer()
@@ -90,11 +84,9 @@ public class CharacterCreatorPanel : UIState, IBlocksInput, IHasCloseButton
         layout.Append(tabRow);
         layout.Append(mainContent);
 
-        panel.Append(layout);
+        MainElement.Append(layout);
 
         _tabs[CharacterTabType.Appearance].Select();
-        
-        MainElement = panel;
     }
 
     public static UIPanel BuildHsvSlider()
