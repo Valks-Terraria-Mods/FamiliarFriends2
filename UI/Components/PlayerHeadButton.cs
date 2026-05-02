@@ -8,7 +8,7 @@ using Terraria.UI;
 
 namespace FamiliarFriends;
 
-public class PlayerHeadButton : Button
+public class PlayerHeadButton : TintedButton
 {
     private const int ButtonSize = 40;
     private const int HairWidth = 40;

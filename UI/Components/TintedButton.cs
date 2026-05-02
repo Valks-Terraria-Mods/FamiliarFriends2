@@ -5,7 +5,7 @@ using Terraria.UI;
 
 namespace FamiliarFriends;
 
-public class Button : UIElement
+public class TintedButton : UIElement
 {
     private bool _isMouseDown;
 
