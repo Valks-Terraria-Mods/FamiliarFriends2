@@ -107,6 +107,11 @@ public class CharacterCreatorPanel : UIState, IBlocksInput, IHasCloseButton, IHa
         return sliderPanel;
     }
 
+    public void SetCloseButton(UIImageButton button)
+    {
+        MainElement.Append(button);
+    }
+
     private enum CharacterTabType
     {
         Appearance,

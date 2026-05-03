@@ -16,7 +16,7 @@ public class AppearanceTab(UIElement parent, Player player) : CharacterTab(paren
 
     protected override void BuildContent(UIElement element, VBoxContainer vbox)
     {
-        var inputField = new InputField("Name:");
+        var inputField = new InputField(initialValue: "", prefix: "Name:");
 
         var spawnBtn = new Button("Spawn")
         {
