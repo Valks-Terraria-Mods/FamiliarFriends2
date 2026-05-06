@@ -10,7 +10,7 @@ using ValkyrieLib;
 
 namespace FamiliarFriends;
 
-public class CharacterCreatorPanel : UIState, IBlocksInput, IHasCloseButton, IHasMainPanel
+public class CharacterCreatorPanel : UIState, IBlocksInput, IHasCloseButton
 {
     public UIElement MainElement { get; set; }
 
@@ -34,8 +34,15 @@ public class CharacterCreatorPanel : UIState, IBlocksInput, IHasCloseButton, IHa
             shoeColor = localPlayer.shoeColor
         };
 
-        MainElement.Width.Set(600, 0);
-        MainElement.Height.Set(350, 0);
+        MainElement = new UIPanel()
+        {
+            Width = StyleDimension.FromPixels(600),
+            Height = StyleDimension.FromPixels(350),
+            BackgroundColor = ValkyrieAPI.UI.Colors.LightBackground,
+            BorderColor = ValkyrieAPI.UI.Colors.Border,
+            HAlign = 0.5f,
+            VAlign = 0.5f
+        };
 
         Append(MainElement);
 
